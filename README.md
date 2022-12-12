@@ -1,5 +1,9 @@
 # Northcoders House of Games API
 
+## MUST HAVE
+
+You will need to create 2 .env files which are set to nc_games_test or nc_games if cloning this repository as these are gitignored.
+
 ## Background
 
 We will be building an API for the purpose of accessing application data programmatically. The intention here is to mimic the building of a real world backend service (such as reddit) which should provide this information to the front end architecture.
