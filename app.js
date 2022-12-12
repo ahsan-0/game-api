@@ -1,6 +1,11 @@
-const express = require("express")
+const express = require("express");
 const app = express();
 const { getCategories } = require("./controllers/controllers");
-app.get("/api/categories", getCategories);
+const { handle500s } = require("./error-handling/erros");
 
-module.exports = app
+app.use(express.json());
+
+app.get("/api/categories", getCategories);
+app.all("*", handle500s);
+
+module.exports = app;
