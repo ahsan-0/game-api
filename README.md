@@ -1,6 +1,6 @@
 # Northcoders House of Games API
 
-# MUST HAVE
+## MUST HAVE
 
 You will need to create 2 .env files which are set to nc_games_test or nc_games if cloning this repository as these are gitignored.
 
