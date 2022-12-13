@@ -11,7 +11,12 @@ exports.getCategories = (req, res, next) => {
 };
 
 exports.getReviewById = (req, res, next) => {
-  console.log(req.url)
-  const id = req.params;
-  console.log(id);
+  const { review_id } = req.params;
+  selectReviewById(review_id)
+    .then((review) => {
+      res.status(200).send({ review });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
