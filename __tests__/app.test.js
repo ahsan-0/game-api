@@ -20,7 +20,7 @@ describe("GET /api/categories", () => {
   });
 });
 
-describe.only("GET /api/reviews/:review_id", () => {
+describe("GET /api/reviews/:review_id", () => {
   test("should respond with 200 and a review object with correct review id", () => {
     return request(app)
       .get("/api/reviews/2")
