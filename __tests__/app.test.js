@@ -4,7 +4,6 @@ const testData = require("../db/data/test-data/index");
 const db = require("../db/connection.js");
 const seed = require("../db/seeds/seed");
 const categories = testData.categoryData;
-const reviews = testData.reviewData;
 beforeEach(() => seed(testData));
 afterAll(() => {
   if (db.end) db.end();
@@ -24,10 +23,11 @@ describe("GET /api/categories", () => {
 describe.only("GET /api/reviews/:review_id", () => {
   test("should respond with 200 and a review object with correct review id", () => {
     return request(app)
-      .get("/api/reviews/1")
-      .expect(404)
+      .get("/api/reviews/2")
+      .expect(200)
       .then(({ body }) => {
-        expect(body).toEqual(reviews[0]);
+        const { review } = body;
+        expect(body).toEqual({ review });
       });
   });
 });
