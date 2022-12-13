@@ -1,4 +1,4 @@
-const { selectCategories } = require("../models/models");
+const { selectCategories, selectReviewById } = require("../models/models");
 
 exports.getCategories = (req, res, next) => {
   selectCategories()
@@ -8,4 +8,10 @@ exports.getCategories = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.getReviewById = (req, res, next) => {
+  console.log(req.url)
+  const id = req.params;
+  console.log(id);
 };
