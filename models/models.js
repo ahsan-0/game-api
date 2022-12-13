@@ -5,6 +5,8 @@ exports.selectCategories = () => {
   });
 };
 
-exports.selectReviewById = () => {
-  return db.query(`SELECT * FROM reviews`).then(() => {});
+exports.selectReviewById = (review_id) => {
+  return db.query(`SELECT * FROM reviews WHERE review_id = $1`, [review_id]).then(({ rows }) => {
+    return rows[0];
+  });
 };
