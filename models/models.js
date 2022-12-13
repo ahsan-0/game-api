@@ -4,3 +4,7 @@ exports.selectCategories = () => {
     return rows;
   });
 };
+
+exports.selectReviewById = () => {
+  return db.query(`SELECT * FROM reviews`).then(() => {});
+};
