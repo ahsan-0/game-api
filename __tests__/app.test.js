@@ -3,7 +3,7 @@ const app = require("../app");
 const testData = require("../db/data/test-data/index");
 const db = require("../db/connection.js");
 const seed = require("../db/seeds/seed");
-const categories = testData.categoryData;
+require("jest-sorted");
 beforeEach(() => seed(testData));
 afterAll(() => {
   if (db.end) db.end();
@@ -54,6 +54,7 @@ describe("GET /api/reviews", () => {
             designer: expect.any(String),
             comment_count: expect.any(String),
           });
+          expect(review).not.toHaveProperty("review_body", expect.any(String));
         });
       });
   });
@@ -64,6 +65,15 @@ describe("GET /api/reviews", () => {
       .then(({ body }) => {
         const { reviews } = body;
         expect(reviews).toHaveLength(13);
+      });
+  });
+  test("review array should be sorted by date in descending order", () => {
+    return request(app)
+      .get("/api/reviews")
+      .expect(200)
+      .then(({ body }) => {
+        const { reviews } = body;
+        expect(reviews).toBeSorted({ descending: true, key: "created_at" });
       });
   });
 });
