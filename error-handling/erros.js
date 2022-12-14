@@ -3,7 +3,7 @@ exports.handle404s = (err, req, res, next) => {
   res.status(404).send({ msg: "Not Found" });
 };
 
-exports.idDoesNotExistError = (err, req, res, next) => {
+exports.handleCustomErros = (err, req, res, next) => {
   if (err.status && err.msg) {
     res.status(404).send({ msg: err.msg });
   } else {
@@ -11,7 +11,7 @@ exports.idDoesNotExistError = (err, req, res, next) => {
   }
 };
 
-exports.invalidIdError = (err, req, res, next) => {
+exports.handleSQLErrors = (err, req, res, next) => {
   if (err.code === "22P02") {
     res.status(400).send({ msg: "Invalid id input" });
   } else {
