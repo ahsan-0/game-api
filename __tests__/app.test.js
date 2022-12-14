@@ -30,4 +30,22 @@ describe("GET /api/reviews/:review_id", () => {
         expect(body).toEqual({ review });
       });
   });
+  test("should respond with 404 Not Found when an id that does not exist is passed", () => {
+    return request(app)
+      .get("/api/reviews/50")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Id does not exist");
+      });
+  });
+  test("should respond with 400 Bad Request when id passed is invalid", () => {
+    return request(app)
+      .get("/api/reviews/banana")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid id input");
+      });
+  });
 });
