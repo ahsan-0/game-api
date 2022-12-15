@@ -24,3 +24,11 @@ exports.selectReviewById = (review_id) => {
     return review;
   });
 };
+
+exports.selectCommentsByReviewId = (review_id) => {
+  return db
+    .query(`SELECT * FROM comments WHERE review_id = $1 ORDER BY created_at desc`, [review_id])
+    .then(({ rows }) => {
+      return rows;
+    })
+};
