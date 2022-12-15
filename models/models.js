@@ -26,9 +26,12 @@ exports.selectReviewById = (review_id) => {
 };
 
 exports.selectCommentsByReviewId = (review_id) => {
-  return db
-    .query(`SELECT * FROM comments WHERE review_id = $1 ORDER BY created_at desc`, [review_id])
-    .then(({ rows }) => {
-      return rows;
-    })
+  return db.query(`SELECT * FROM comments WHERE review_id = $1 ORDER BY created_at desc`, [review_id]).then(({ rows }) => {
+    return rows;
+  });
+};
+
+exports.createComment = (newComment) => {
+  const { username, body } = newComment;
+  return db.query(`INSERT INTO comments(author,body) VALUES($1,$2)`, [username, body]);
 };
