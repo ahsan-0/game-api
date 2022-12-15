@@ -27,17 +27,17 @@ describe("GET /api/reviews/:review_id", () => {
       .expect(200)
       .then(({ body }) => {
         expect(body).toMatchObject({
-          review: expect.objectContaining({
-            review_id: expect.any(Number),
-            title: expect.any(String),
-            category: expect.any(String),
-            designer: expect.any(String),
-            owner: expect.any(String),
-            review_body: expect.any(String),
-            review_img_url: expect.any(String),
-            created_at: expect.any(String),
-            votes: expect.any(Number),
-          }),
+          review: {
+            review_id: 2,
+            title: "Jenga",
+            category: "dexterity",
+            designer: "Leslie Scott",
+            owner: "philippaclaire9",
+            review_body: "Fiddly fun for all the family",
+            review_img_url: "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+            created_at: "2021-01-18T10:01:41.251Z",
+            votes: 5,
+          },
         });
       });
   });
