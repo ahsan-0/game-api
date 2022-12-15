@@ -125,8 +125,8 @@ describe("GET /api/reviews/:review_id/comments", () => {
       .get("/api/reviews/2/comments")
       .expect(200)
       .then(({ body }) => {
-        const { commentsByReviewId } = body;
-        commentsByReviewId.forEach((comment) => {
+        const { comments } = body;
+        comments.forEach((comment) => {
           expect(comment).toMatchObject({
             comment_id: expect.any(Number),
             body: expect.any(String),
@@ -151,7 +151,7 @@ describe("GET /api/reviews/:review_id/comments", () => {
       .get("/api/reviews/7/comments")
       .expect(200)
       .then(({ body }) => {
-        expect(body).toEqual({ commentsByReviewId: [] });
+        expect(body).toEqual({ comments: [] });
       });
   });
   test("should respond with a 400 Bad Request when passed an id that is invalid", () => {
