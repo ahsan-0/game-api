@@ -118,3 +118,48 @@ describe("GET /api/reviews/:review_id", () => {
       });
   });
 });
+
+describe("GET /api/reviews/:review_id/comments", () => {
+  test("should respond with 200 and a comment object with the corresponding comment", () => {
+    return request(app)
+      .get("/api/reviews/2/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { commentsByReviewId } = body;
+        commentsByReviewId.forEach((comment) => {
+          expect(comment).toMatchObject({
+            comment_id: expect.any(Number),
+            body: expect.any(String),
+            review_id: 2,
+            author: expect.any(String),
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+          });
+        });
+      });
+  });
+  test("should respond with a 404 Not Found when passed an id that does not exist", () => {
+    return request(app)
+      .get("/api/reviews/90/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "Id does not exist" });
+      });
+  });
+  test("should respond with a 200 and a comments object set to an empty array when passed an id that exists but has no comments", () => {
+    return request(app)
+      .get("/api/reviews/7/comments")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toEqual({ commentsByReviewId: [] });
+      });
+  });
+  test("should respond with a 400 Bad Request when passed an id that is invalid", () => {
+    return request(app)
+      .get("/api/reviews/banana/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "Invalid id input" });
+      });
+  });
+});
