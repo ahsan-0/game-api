@@ -163,3 +163,19 @@ describe("GET /api/reviews/:review_id/comments", () => {
       });
   });
 });
+
+describe.only("POST /api/reviews/:review_id/comments", () => {
+  test("should respond with a 201 and an object of the newly posted comment", () => {
+    const newComment = {
+      username: "steve",
+      body: "the sun will turn into a red giant in a million years",
+    };
+    return request(app)
+      .post("/api/reviews/14/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toEqual(newComment);
+      });
+  });
+});
