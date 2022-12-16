@@ -5,7 +5,7 @@ exports.handle404s = (err, req, res, next) => {
 
 exports.handleCustomErros = (err, req, res, next) => {
   if (err.status && err.msg) {
-    res.status(404).send({ msg: err.msg });
+    res.status(err.status).send({ msg: err.msg });
   } else {
     next(err);
   }
