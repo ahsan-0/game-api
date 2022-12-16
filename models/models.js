@@ -33,11 +33,23 @@ exports.selectCommentsByReviewId = (review_id) => {
 
 exports.createComment = (newComment, review_id) => {
   const { username, body } = newComment;
+  if (username === undefined || body === undefined) {
+    return Promise.reject({ status: 400, msg: "Missing Information" });
+  }
   if (typeof username !== "string" || typeof body !== "string") {
     return Promise.reject({ status: 400, msg: "Information Provided is in incorrect format" });
   }
   return db
-    .query(`INSERT INTO comments(review_id,author,body) VALUES($1,$2,$3) RETURNING author,body`, [review_id, username, body])
+    .query("SELECT username FROM users")
+    .then(({ rows }) => {
+      const usernames = rows.map((user) => {
+        return user.username;
+      });
+      if (!usernames.includes(username)) {
+        return Promise.reject({ status: 404, msg: "User does not exist" });
+      }
+      return db.query(`INSERT INTO comments(review_id,author,body) VALUES($1,$2,$3) RETURNING author,body`, [review_id, username, body]);
+    })
     .then(({ rows }) => {
       const comment = rows[0];
       return comment;
