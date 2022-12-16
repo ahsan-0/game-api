@@ -164,18 +164,59 @@ describe("GET /api/reviews/:review_id/comments", () => {
   });
 });
 
-describe.only("POST /api/reviews/:review_id/comments", () => {
+describe("POST /api/reviews/:review_id/comments", () => {
   test("should respond with a 201 and an object of the newly posted comment", () => {
     const newComment = {
-      username: "steve",
-      body: "the sun will turn into a red giant in a million years",
+      username: "mallionaire",
+      body: "amazing game for the family",
+    };
+    return request(app)
+      .post("/api/reviews/2/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          postedComment: { author: "mallionaire", body: "amazing game for the family" },
+        });
+      });
+  });
+  test("should respond with a 404 Not Found when passed an id that does not exist", () => {
+    const newComment = {
+      username: "mallionaire",
+      body: "amazing game for the family",
     };
     return request(app)
       .post("/api/reviews/14/comments")
       .send(newComment)
-      .expect(201)
+      .expect(404)
       .then(({ body }) => {
-        expect(body).toEqual(newComment);
+        expect(body).toEqual({ msg: "Id does not exist" });
+      });
+  });
+  test("should respond with a 400 when passed an invalid id", () => {
+    const newComment = {
+      username: "mallionaire",
+      body: "amazing game for the family",
+    };
+    return request(app)
+      .post("/api/reviews/bananas/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "Invalid id input" });
+      });
+  });
+  test("should respond with a 400 Bad Request when properties are set to incorrect datatypes", () => {
+    const newComment = {
+      username: 11,
+      body: true,
+    };
+    return request(app)
+      .post("/api/reviews/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "Information Provided is in incorrect format" });
       });
   });
 });
