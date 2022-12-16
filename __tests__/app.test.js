@@ -219,4 +219,46 @@ describe("POST /api/reviews/:review_id/comments", () => {
         expect(body).toEqual({ msg: "Information Provided is in incorrect format" });
       });
   });
+  test("should respond with a 404 Not Found when a username to POST as does not exist", () => {
+    const newComment = {
+      username: "steve",
+      body: "just do it",
+    };
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "User does not exist" });
+      });
+  });
+  test("should ignore extra information user inputs when doing a POST", () => {
+    const newComment = {
+      username: "mallionaire",
+      body: "great game",
+      best_comment: true,
+    };
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          postedComment: { author: "mallionaire", body: "great game" },
+        });
+        expect(body).toMatchObject(expect.not.objectContaining({ best_comment: true }));
+      });
+  });
+  test("should respond with a 400 Bad Request when request does not contain correct properties", () => {
+    const newComment = {
+      age: 12,
+    };
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "Missing Information" });
+      });
+  });
 });
