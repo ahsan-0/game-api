@@ -321,6 +321,9 @@ describe("PATCH /api/reviews/:review_id", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body).toEqual({ msg: "Patch request is in incorrect format" });
+      });
+  });
+});
 
 describe("GET /api/users", () => {
   test("should respond with 200 and an object with a users property set to an array of all users", () => {
@@ -347,3 +350,6 @@ describe("GET /api/users", () => {
       .then(({ body }) => {
         const { users } = body;
         expect(users).toHaveLength(4);
+      });
+  });
+});
