@@ -65,3 +65,6 @@ exports.selectReivewToPatch = (newPatch, review_id) => {
     .then(({ rows }) => {
       const updatedReview = rows[0];
       return updatedReview;
+    })
+    .catch(next);
+};
