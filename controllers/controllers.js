@@ -1,4 +1,4 @@
-const { selectCategories, selectReviews, selectReviewById, selectCommentsByReviewId } = require("../models/models");
+const { selectCategories, selectReviews, selectReviewById, selectCommentsByReviewId, createComment } = require("../models/models");
 
 exports.getCategories = (req, res, next) => {
   selectCategories()
@@ -39,6 +39,19 @@ exports.getCommentsByReviewId = (req, res, next) => {
     })
     .then((comments) => {
       res.status(200).send({ comments });
+    })
+    .catch(next);
+};
+
+exports.postComment = (req, res, next) => {
+  const newComment = req.body;
+  const { review_id } = req.params;
+  selectReviewById(review_id)
+    .then(() => {
+      return createComment(newComment, review_id);
+    })
+    .then((postedComment) => {
+      res.status(201).send({ postedComment });
     })
     .catch(next);
 };
