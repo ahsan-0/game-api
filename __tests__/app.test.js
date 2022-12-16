@@ -163,3 +163,32 @@ describe("GET /api/reviews/:review_id/comments", () => {
       });
   });
 });
+
+describe("GET /api/users", () => {
+  test("should respond with 200 and an object with a users property set to an array of all users", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        const { users } = body;
+        users.forEach((user) => {
+          expect(user).toMatchObject({
+            username: expect.any(String),
+            avatar_url: expect.any(String),
+            name: expect.any(String),
+          });
+        });
+        expect(body).toEqual({ users });
+        expect(body).toBeInstanceOf(Object);
+      });
+  });
+  test("users array should have a length of 4", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        const { users } = body;
+        expect(users).toHaveLength(4);
+      });
+  });
+});
