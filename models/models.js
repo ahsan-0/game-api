@@ -56,7 +56,7 @@ exports.createComment = (newComment, review_id) => {
     });
 };
 
-exports.selectReivewToPatch = (newPatch, review_id) => {
+exports.selectReviewToPatch = (newPatch, review_id) =>{
   return db
     .query(
       `UPDATE reviews SET votes = votes + $1 WHERE review_id = $2 RETURNING title,designer,owner,review_img_url,review_body,category,created_at,votes;`,
