@@ -4,7 +4,7 @@ const {
   selectReviewById,
   selectCommentsByReviewId,
   createComment,
-  selectReviewToPatch,
+  selectReviewToPatch,selectUsers
 } = require("../models/models");
 
 exports.getCategories = (req, res, next) => {
@@ -74,6 +74,11 @@ exports.patchReview = (req, res, next) => {
     })
     .then((patchedReview) => {
       res.status(200).send({ patchedReview });
-    })
+
+exports.getUsers = (req, res, next) => {
+  selectUsers()
+    .then((users) => {
+      res.status(200).send({ users });
+      })
     .catch(next);
 };
