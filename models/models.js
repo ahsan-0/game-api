@@ -65,7 +65,8 @@ exports.selectReviewToPatch = (newPatch, review_id) =>{
     .then(({ rows }) => {
       const updatedReview = rows[0];
       return updatedReview;
-    })
+    });
+};
 
 exports.selectUsers = () => {
   return db.query(`SELECT username,avatar_url,name FROM users`).then(({ rows }) => {
