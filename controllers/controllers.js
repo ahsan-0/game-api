@@ -1,4 +1,11 @@
-const { selectCategories, selectReviews, selectReviewById, selectCommentsByReviewId, createComment, selectReviewToPatch } = require("../models/models");
+const {
+  selectCategories,
+  selectReviews,
+  selectReviewById,
+  selectCommentsByReviewId,
+  createComment,
+  selectReviewToPatch,
+} = require("../models/models");
 
 exports.getCategories = (req, res, next) => {
   selectCategories()
@@ -66,6 +73,7 @@ exports.patchReview = (req, res, next) => {
       return selectReivewToPatch(patch, review_id);
     })
     .then((patchedReview) => {
-      res.status(200).send({ patchedReview })
-      .catch(next)
-}
+      res.status(200).send({ patchedReview });
+    })
+    .catch(next);
+};
