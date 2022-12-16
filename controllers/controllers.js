@@ -4,7 +4,7 @@ const {
   selectReviewById,
   selectCommentsByReviewId,
   createComment,
-  selectReivewToPatch,
+  selectReviewToPatch,
 } = require("../models/models");
 
 exports.getCategories = (req, res, next) => {
@@ -70,7 +70,7 @@ exports.patchReview = (req, res, next) => {
       if (patch === undefined) {
         return Promise.reject({ status: 400, msg: "Patch request is in incorrect format" });
       }
-      return selectReivewToPatch(patch, review_id);
+      return selectReviewToPatch(patch, review_id);
     })
     .then((patchedReview) => {
       res.status(200).send({ patchedReview });
