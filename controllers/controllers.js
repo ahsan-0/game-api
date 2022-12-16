@@ -4,7 +4,7 @@ const {
   selectReviewById,
   selectCommentsByReviewId,
   createComment,
-  selectReviewToPatch,
+  selectReivewToPatch,
 } = require("../models/models");
 
 exports.getCategories = (req, res, next) => {
