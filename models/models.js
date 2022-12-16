@@ -26,9 +26,13 @@ exports.selectReviewById = (review_id) => {
 };
 
 exports.selectCommentsByReviewId = (review_id) => {
-  return db
-    .query(`SELECT * FROM comments WHERE review_id = $1 ORDER BY created_at desc`, [review_id])
-    .then(({ rows }) => {
-      return rows;
-    })
+  return db.query(`SELECT * FROM comments WHERE review_id = $1 ORDER BY created_at desc`, [review_id]).then(({ rows }) => {
+    return rows;
+  });
+};
+
+exports.selectUsers = () => {
+  return db.query(`SELECT username,avatar_url,name FROM users`).then(({ rows }) => {
+    return rows;
+  });
 };
