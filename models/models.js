@@ -55,3 +55,13 @@ exports.createComment = (newComment, review_id) => {
       return comment;
     });
 };
+
+exports.selectReivewToPatch = (newPatch, review_id) => {
+  return db
+    .query(
+      `UPDATE reviews SET votes = votes + $1 WHERE review_id = $2 RETURNING title,designer,owner,review_img_url,review_body,category,created_at,votes;`,
+      [newPatch, review_id]
+    )
+    .then(({ rows }) => {
+      const updatedReview = rows[0];
+      return updatedReview;
