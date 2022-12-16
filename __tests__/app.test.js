@@ -163,3 +163,65 @@ describe("GET /api/reviews/:review_id/comments", () => {
       });
   });
 });
+
+describe("PATCH /api/reviews/:review_id", () => {
+  test("should respond with a 200 and an object of the patched review", () => {
+    const patch = {
+      inc_votes: 1,
+    };
+    return request(app)
+      .patch("/api/reviews/1")
+      .send(patch)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toMatchObject({
+          patchedReview: {
+            title: "Agricola",
+            designer: "Uwe Rosenberg",
+            owner: "mallionaire",
+            review_img_url: "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+            review_body: "Farmyard fun!",
+            category: "euro game",
+            created_at: expect.any(String),
+            votes: 2,
+          },
+        });
+      });
+  });
+  test("should respond with a 404 when passed an id that does not exist", () => {
+    const patch = {
+      inc_votes: 1,
+    };
+    return request(app)
+      .patch("/api/reviews/19")
+      .send(patch)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "Id does not exist" });
+      });
+  });
+  test("should respond with a 400 when passed an invalid id", () => {
+    const patch = {
+      inc_votes: 1,
+    };
+    return request(app)
+      .patch("/api/reviews/banana")
+      .send(patch)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "Invalid id input" });
+      });
+  });
+  test("should respond with a 400 when patch information is insufficent", () => {
+    const patch = {
+      body: "wrong information",
+    };
+    return request(app)
+      .patch("/api/reviews/1")
+      .send(patch)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body).toEqual({ msg: "Patch request is in incorrect format" });
+      });
+  });
+});
