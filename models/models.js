@@ -66,5 +66,4 @@ exports.selectReivewToPatch = (newPatch, review_id) => {
       const updatedReview = rows[0];
       return updatedReview;
     })
-    .catch(next);
 };
