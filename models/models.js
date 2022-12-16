@@ -31,7 +31,15 @@ exports.selectCommentsByReviewId = (review_id) => {
   });
 };
 
-exports.createComment = (newComment) => {
+exports.createComment = (newComment, review_id) => {
   const { username, body } = newComment;
-  return db.query(`INSERT INTO comments(author,body) VALUES($1,$2)`, [username, body]);
+  if (typeof username !== "string" || typeof body !== "string") {
+    return Promise.reject({ status: 400, msg: "Information Provided is in incorrect format" });
+  }
+  return db
+    .query(`INSERT INTO comments(review_id,author,body) VALUES($1,$2,$3) RETURNING author,body`, [review_id, username, body])
+    .then(({ rows }) => {
+      const comment = rows[0];
+      return comment;
+    });
 };
