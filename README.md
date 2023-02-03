@@ -1,5 +1,7 @@
 # Northcoders House of Games API
 
+https://nc-games-f38h.onrender.com
+
 ## MUST HAVE
 
 You will need to create 2 .env files which are set to nc_games_test or nc_games if cloning this repository as these are gitignored.
