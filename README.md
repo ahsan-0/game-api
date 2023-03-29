@@ -1,6 +1,5 @@
 # Northcoders House of Games API
 
-https://nc-games-f38h.onrender.com
 
 ## MUST HAVE
 
